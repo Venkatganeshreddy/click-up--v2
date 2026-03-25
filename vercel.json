@@ -9,7 +9,7 @@
   ],
   "functions": {
     "api/index.ts": {
-      "includesFiles": "server/**"
+      "includeFiles": "server/**"
     }
   }
 }
