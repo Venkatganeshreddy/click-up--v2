@@ -1,0 +1,606 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 199.1 89.1% 48.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 199.1 89.1% 48.2%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 199.1 89.1% 48.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 199.1 89.1% 48.2%;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply bg-gray-50 text-gray-900 dark:bg-[#0f1012] dark:text-white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Global dark-mode text visibility boost */
+@layer utilities {
+  .dark .dark\:text-slate-500,
+  .dark .dark\:text-gray-500 {
+    color: #b7c0d0 !important;
+  }
+
+  .dark .dark\:text-slate-400,
+  .dark .dark\:text-gray-400 {
+    color: #d0d8e6 !important;
+  }
+
+  .dark .dark\:text-slate-300,
+  .dark .dark\:text-gray-300 {
+    color: #e2e8f0 !important;
+  }
+
+  .dark .dark\:placeholder-slate-500,
+  .dark .dark\:placeholder-gray-500 {
+    color: #9aa6bc !important;
+  }
+}
+
+/* ClickUp Doc Content Styling - Exact Match */
+.clickup-doc-content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: #1f2937;
+  font-weight: 400 !important;
+}
+
+/* Reset any inherited font sizes from pasted content */
+.clickup-doc-content * {
+  font-family: inherit;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.dark .clickup-doc-content {
+  color: #e5e7eb;
+}
+
+/* Headings - ClickUp style */
+.clickup-doc-content h1 {
+  position: relative;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.dark .clickup-doc-content h1 {
+  color: #fff;
+}
+
+.clickup-doc-content h2 {
+  position: relative;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 18px 0 8px 0;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.dark .clickup-doc-content h2 {
+  color: #fff;
+}
+
+.clickup-doc-content h3 {
+  position: relative;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 14px 0 6px 0;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.clickup-doc-content .doc-heading {
+  padding-left: 18px;
+}
+
+.clickup-doc-content .doc-heading .doc-heading-toggle {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  color: #9ca3af;
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickup-doc-content .doc-heading .doc-heading-toggle::before {
+  content: '▾';
+  font-size: 11px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.clickup-doc-content h1[data-collapsed="true"] .doc-heading-toggle::before,
+.clickup-doc-content h2[data-collapsed="true"] .doc-heading-toggle::before,
+.clickup-doc-content h3[data-collapsed="true"] .doc-heading-toggle::before {
+  transform: rotate(-90deg);
+}
+
+.clickup-doc-content .doc-heading .doc-heading-toggle:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.dark .clickup-doc-content .doc-heading .doc-heading-toggle:hover {
+  background: #1f2937;
+  color: #9ca3af;
+}
+
+.doc-collapsed-content {
+  display: none !important;
+}
+
+.dark .clickup-doc-content h3 {
+  color: #fff;
+}
+
+/* Paragraphs */
+.clickup-doc-content p {
+  margin: 0 0 8px 0;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+}
+
+/* Bold text - NOT extra bold, just semibold like ClickUp */
+.clickup-doc-content strong,
+.clickup-doc-content b {
+  font-weight: 600;
+  color: inherit;
+}
+
+/* Lists - ClickUp exact styling */
+.clickup-doc-content ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  padding-left: 22px;
+  margin: 6px 0 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.clickup-doc-content ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 22px;
+  margin: 6px 0 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.clickup-doc-content li {
+  margin: 3px 0;
+  line-height: 1.5;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.clickup-doc-content li::marker {
+  color: #6b7280;
+}
+
+.dark .clickup-doc-content li::marker {
+  color: #9ca3af;
+}
+
+.clickup-doc-content li > p {
+  margin: 0;
+}
+
+/* Force all list items to inherit proper size */
+.clickup-doc-content li * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* Second level nested lists - use circle markers */
+.clickup-doc-content ul ul,
+.clickup-doc-content ol ul,
+.clickup-doc-content li > ul {
+  list-style-type: circle;
+  margin: 4px 0;
+  padding-left: 18px;
+}
+
+/* Third level lists - use square markers */
+.clickup-doc-content ul ul ul,
+.clickup-doc-content ol ul ul,
+.clickup-doc-content li > ul > li > ul {
+  list-style-type: square;
+}
+
+.clickup-doc-content ul ol,
+.clickup-doc-content ol ol {
+  margin: 2px 0;
+}
+
+/* Links */
+.clickup-doc-content a {
+  color: #7c3aed;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.clickup-doc-content a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.dark .clickup-doc-content a {
+  color: #60a5fa;
+}
+
+/* Blockquotes */
+.clickup-doc-content blockquote {
+  border-left: 3px solid #d1d5db;
+  padding-left: 16px;
+  margin: 8px 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.dark .clickup-doc-content blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
+/* Code */
+.clickup-doc-content code {
+  background: #f3f4f6 !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-family: 'Fira Code', 'Monaco', 'Menlo', monospace;
+  color: #6d28d9;
+}
+
+.dark .clickup-doc-content code {
+  background: #1f2937 !important;
+  color: #c4b5fd;
+}
+
+.clickup-doc-content pre {
+  background: #111827 !important;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.clickup-doc-content pre code {
+  background: transparent;
+  padding: 0;
+  color: #e5e7eb;
+}
+
+.clickup-doc-content mark {
+  background: #fef3c7;
+  color: inherit;
+}
+
+.dark .clickup-doc-content mark {
+  background: #92400e;
+  color: #fef3c7;
+}
+
+.clickup-doc-content p,
+.clickup-doc-content li,
+.clickup-doc-content span,
+.clickup-doc-content div {
+  background: transparent !important;
+}
+
+/* Horizontal rule */
+.clickup-doc-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 16px 0;
+}
+
+.dark .clickup-doc-content hr {
+  border-top-color: #374151;
+}
+
+/* Tables - ClickUp style */
+.clickup-doc-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.clickup-doc-content th,
+.clickup-doc-content td {
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.dark .clickup-doc-content th,
+.dark .clickup-doc-content td {
+  border-color: #4b5563;
+}
+
+.clickup-doc-content th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+.dark .clickup-doc-content th {
+  background: #1e293b;
+}
+
+/* Strikethrough */
+.clickup-doc-content del,
+.clickup-doc-content s {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.dark .clickup-doc-content del,
+.dark .clickup-doc-content s {
+  color: #6b7280;
+}
+
+/* Empty placeholder */
+.clickup-doc-content:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.dark .clickup-doc-content:empty::before {
+  color: #6b7280;
+}
+
+/* Public doc view should be read-only */
+.public-doc-content input,
+.public-doc-content textarea,
+.public-doc-content select {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Doc slash command inserts */
+.clickup-doc-content .doc-banner {
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 8px 0;
+  background: rgba(59, 130, 246, 0.08);
+  color: #e5e7eb;
+}
+
+.clickup-doc-content .doc-columns {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.clickup-doc-content .doc-column {
+  flex: 1;
+  border: 1px dashed #374151;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.clickup-doc-content .doc-toggle {
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+
+.clickup-doc-content .doc-toggle > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.clickup-doc-content .doc-toggle-content {
+  margin-top: 8px;
+}
+
+.clickup-doc-content .doc-button {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 12px;
+}
+
+.clickup-doc-content .doc-clickup-view {
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.clickup-doc-content .doc-clickup-view-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 6px;
+}
+
+.clickup-doc-content .doc-clickup-view-body {
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 10px;
+  border: 1px dashed #334155;
+  border-radius: 6px;
+}
+
+.clickup-doc-content .doc-mention {
+  background: rgba(124, 58, 237, 0.2);
+  color: #c4b5fd;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.clickup-doc-content .doc-embed {
+  border: 1px solid #374151;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.clickup-doc-content .doc-embed-iframe {
+  width: 100%;
+  height: 320px;
+  border: 0;
+}
+
+.clickup-doc-content .doc-inline-code {
+  background: #0f172a;
+  color: #f472b6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.clickup-doc-content .doc-attachment {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.clickup-doc-content .doc-toc {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.clickup-doc-content .doc-toc-sticky {
+  position: sticky;
+  top: 16px;
+}
+
+.clickup-doc-content .doc-pull-quote {
+  border-left: 4px solid #8b5cf6;
+  padding-left: 12px;
+  font-style: italic;
+  color: #cbd5f5;
+}
+
+.clickup-doc-content .doc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  margin-right: 4px;
+}
+
+.clickup-doc-content .badge-strong-red { background: #b91c1c; }
+.clickup-doc-content .badge-strong-orange { background: #c2410c; }
+.clickup-doc-content .badge-strong-yellow { background: #a16207; }
+.clickup-doc-content .badge-strong-blue { background: #1d4ed8; }
+.clickup-doc-content .badge-strong-purple { background: #6d28d9; }
+.clickup-doc-content .badge-strong-pink { background: #be185d; }
+.clickup-doc-content .badge-strong-green { background: #15803d; }
+.clickup-doc-content .badge-strong-grey { background: #475569; }
+.clickup-doc-content .badge-red { background: #ef4444; }
+.clickup-doc-content .badge-orange { background: #f97316; }
+.clickup-doc-content .badge-yellow { background: #facc15; color: #111827; }
+.clickup-doc-content .badge-blue { background: #3b82f6; }
+.clickup-doc-content .badge-purple { background: #8b5cf6; }
+.clickup-doc-content .badge-pink { background: #ec4899; }
+.clickup-doc-content .badge-green { background: #22c55e; }
+.clickup-doc-content .badge-grey { background: #94a3b8; color: #111827; }
+
+.clickup-doc-content .doc-whiteboard {
+  border: 1px dashed #475569;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.clickup-doc-content .doc-markdown {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(30, 41, 59, 0.3);
+  font-size: 12px;
+  color: #cbd5f5;
+}
+
+.clickup-doc-content .doc-markdown-block {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  white-space: pre-wrap;
+}

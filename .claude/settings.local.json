@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(curl:*)",
+      "Bash(FOLDER_ID=\"002882a0-2a0d-487c-ae37-908ad3303613\")",
+      "Bash(LIST_ID=\"ff80f87b-2028-480b-a61d-9c152a7eb209\")",
+      "Bash(OTHER_LIST=\"62103f5a-849b-49a1-b998-0b29ba91f40e\")",
+      "Bash(SPACE_ID=\"6fa8bbbf-5faa-4aba-b7df-a9c0b68ce0b4\":*)",
+      "Bash(__NEW_LINE_3447cf39fb21b564__ echo \"=== SPACE level fields \\(should show: Budget only\\) ===\")",
+      "Bash(python3:*)",
+      "Bash(__NEW_LINE_ce8901b9feea85a5__ echo \"\")",
+      "Bash(__NEW_LINE_7160fcef66560789__ echo \"\")",
+      "Bash(__NEW_LINE_64b6fedbdf3a5f95__ echo \"\")",
+      "Bash(npx pm2:*)",
+      "Bash(npx tsc:*)",
+      "Bash(netstat:*)",
+      "Bash(ss:*)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)",
+      "Bash(lsof:*)",
+      "WebFetch(domain:c3cf521k-5173.inc1.devtunnels.ms)",
+      "Bash(ps:*)",
+      "Bash(chmod:*)",
+      "Bash(/home/nxtwave/bin/devtunnel:*)",
+      "Bash(devtunnel show:*)",
+      "Bash(npx vite build:*)",
+      "Bash(npx supabase:*)",
+      "Bash(npx dotenv -e .env -- npx tsx create-missing-auth-users.ts)"
+    ]
+  }
+}
