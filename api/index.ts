@@ -1,45 +1,66 @@
 import express from 'express';
 import cors from 'cors';
-import projectsRouter from '../server/src/routes/projects.js';
-import tasksRouter from '../server/src/routes/tasks.js';
-import aiRouter from '../server/src/routes/ai.js';
-import membersRouter from '../server/src/routes/members.js';
-import spaceMembersRouter from '../server/src/routes/space-members.js';
-import taskListsRouter from '../server/src/routes/task-lists.js';
-import customFieldsRouter from '../server/src/routes/custom-fields.js';
-import sprintsRouter from '../server/src/routes/sprints.js';
-import docsRouter from '../server/src/routes/docs.js';
-import docPagesRouter from '../server/src/routes/doc-pages.js';
-import formsRouter from '../server/src/routes/forms.js';
-import formResponsesRouter from '../server/src/routes/form-responses.js';
-import taskStatusesRouter from '../server/src/routes/task-statuses.js';
+import { createClient } from '@supabase/supabase-js';
+import { Router } from 'express';
 
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok' });
+// Initialize Supabase admin client
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
+// Health check
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok', env: { hasUrl: !!supabaseUrl, hasKey: !!supabaseServiceKey } });
 });
 
-app.use('/api/projects', projectsRouter);
-app.use('/api', tasksRouter);
-app.use('/api/ai', aiRouter);
-app.use('/api/members', membersRouter);
-app.use('/api/space-members', spaceMembersRouter);
-app.use('/api/task-lists', taskListsRouter);
-app.use('/api/custom-fields', customFieldsRouter);
-app.use('/api/sprints', sprintsRouter);
-app.use('/api/docs', docsRouter);
-app.use('/api/doc-pages', docPagesRouter);
-app.use('/api/forms', formsRouter);
-app.use('/api/form-responses', formResponsesRouter);
-app.use('/api/task-statuses', taskStatusesRouter);
-
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({ error: 'Internal server error' });
+// Debug route - test if function works
+app.get('/api/test', (_req, res) => {
+  res.json({ message: 'API is working!' });
 });
+
+// Import and mount all routes
+async function setupRoutes() {
+  try {
+    const projectsModule = await import('../server/src/routes/projects.js');
+    const tasksModule = await import('../server/src/routes/tasks.js');
+    const aiModule = await import('../server/src/routes/ai.js');
+    const membersModule = await import('../server/src/routes/members.js');
+    const spaceMembersModule = await import('../server/src/routes/space-members.js');
+    const taskListsModule = await import('../server/src/routes/task-lists.js');
+    const customFieldsModule = await import('../server/src/routes/custom-fields.js');
+    const sprintsModule = await import('../server/src/routes/sprints.js');
+    const docsModule = await import('../server/src/routes/docs.js');
+    const docPagesModule = await import('../server/src/routes/doc-pages.js');
+    const formsModule = await import('../server/src/routes/forms.js');
+    const formResponsesModule = await import('../server/src/routes/form-responses.js');
+    const taskStatusesModule = await import('../server/src/routes/task-statuses.js');
+
+    app.use('/api/projects', projectsModule.default);
+    app.use('/api', tasksModule.default);
+    app.use('/api/ai', aiModule.default);
+    app.use('/api/members', membersModule.default);
+    app.use('/api/space-members', spaceMembersModule.default);
+    app.use('/api/task-lists', taskListsModule.default);
+    app.use('/api/custom-fields', customFieldsModule.default);
+    app.use('/api/sprints', sprintsModule.default);
+    app.use('/api/docs', docsModule.default);
+    app.use('/api/doc-pages', docPagesModule.default);
+    app.use('/api/forms', formsModule.default);
+    app.use('/api/form-responses', formResponsesModule.default);
+    app.use('/api/task-statuses', taskStatusesModule.default);
+  } catch (err) {
+    console.error('Failed to load routes:', err);
+    app.use('/api', (_req, res) => {
+      res.status(500).json({ error: 'Failed to load routes', details: String(err) });
+    });
+  }
+}
+
+setupRoutes();
 
 export default app;
