@@ -1,18 +1,30 @@
 import express from 'express';
 import cors from 'cors';
-import { createClient } from '@supabase/supabase-js';
 
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-// Initialize Supabase admin client
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+// Health check — registered first so it always works
+app.get('/api/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    env: {
+      hasUrl: !!process.env.SUPABASE_URL,
+      hasKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+    }
+  });
+});
+
+// Debug route
+app.get('/api/test', (_req, res) => {
+  res.json({ message: 'API is working!' });
+});
 
 // Import and mount all routes
+let routeError: string | null = null;
+
 async function setupRoutes() {
   try {
     const projectsModule = await import('../server/src/routes/projects.js');
@@ -43,29 +55,20 @@ async function setupRoutes() {
     app.use('/api/form-responses', formResponsesModule.default);
     app.use('/api/task-statuses', taskStatusesModule.default);
   } catch (err) {
+    routeError = String(err);
     console.error('Failed to load routes:', err);
-    app.use('/api', (_req, res) => {
-      res.status(500).json({ error: 'Failed to load routes', details: String(err) });
-    });
   }
 }
 
 const routesReady = setupRoutes();
 
-// Wait for routes to be loaded before handling any request
-app.use(async (_req, _res, next) => {
+// Middleware: wait for routes to load, return error if they failed
+app.use(async (_req, res, next) => {
   await routesReady;
+  if (routeError) {
+    return res.status(500).json({ error: 'Failed to load routes', details: routeError });
+  }
   next();
-});
-
-// Health check
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', env: { hasUrl: !!supabaseUrl, hasKey: !!supabaseServiceKey } });
-});
-
-// Debug route - test if function works
-app.get('/api/test', (_req, res) => {
-  res.json({ message: 'API is working!' });
 });
 
 export default app;
