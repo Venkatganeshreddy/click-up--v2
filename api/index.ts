@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
-import { Router } from 'express';
 
 const app = express();
 
@@ -12,16 +11,6 @@ app.use(express.json());
 const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-
-// Health check
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', env: { hasUrl: !!supabaseUrl, hasKey: !!supabaseServiceKey } });
-});
-
-// Debug route - test if function works
-app.get('/api/test', (_req, res) => {
-  res.json({ message: 'API is working!' });
-});
 
 // Import and mount all routes
 async function setupRoutes() {
@@ -61,6 +50,22 @@ async function setupRoutes() {
   }
 }
 
-setupRoutes();
+const routesReady = setupRoutes();
+
+// Wait for routes to be loaded before handling any request
+app.use(async (_req, _res, next) => {
+  await routesReady;
+  next();
+});
+
+// Health check
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok', env: { hasUrl: !!supabaseUrl, hasKey: !!supabaseServiceKey } });
+});
+
+// Debug route - test if function works
+app.get('/api/test', (_req, res) => {
+  res.json({ message: 'API is working!' });
+});
 
 export default app;

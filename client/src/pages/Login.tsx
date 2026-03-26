@@ -48,7 +48,14 @@ export default function Login() {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(text || 'Server error. Please try again later.');
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Login failed');
